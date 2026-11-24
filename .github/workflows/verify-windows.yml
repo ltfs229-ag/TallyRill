@@ -1,0 +1,52 @@
+name: Verify Windows distribution
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'distribution/winget/**'
+      - '.github/workflows/verify-windows.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: windows-2025
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Run comparison tests and build the offline HTML
+        shell: pwsh
+        run: |
+          node --test tests/engine.test.js
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python scripts/build.py
+      - name: Prepare WinGet on the disposable runner
+        shell: pwsh
+        run: |
+          Install-Module Microsoft.WinGet.Client -Repository PSGallery -Scope CurrentUser -Force
+          Repair-WinGetPackageManager -Latest
+          $winget = Join-Path (Get-AppxPackage Microsoft.DesktopAppInstaller).InstallLocation 'winget.exe'
+          if (!(Test-Path $winget)) { throw 'WinGet executable missing' }
+          "WINGET_EXE=$winget" >> $env:GITHUB_ENV
+          & $winget settings --enable LocalManifestFiles
+      - name: Validate, install, compare the installed HTML and uninstall
+        shell: pwsh
+        run: |
+          $manifest = 'distribution/winget'
+          & $env:WINGET_EXE validate --manifest $manifest
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          & $env:WINGET_EXE install --manifest $manifest --silent --disable-interactivity --accept-package-agreements --accept-source-agreements
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          $installed = Join-Path $env:LOCALAPPDATA 'Programs/TallyRill/TallyRill.html'
+          if ((Get-FileHash $installed).Hash -ne (Get-FileHash 'build/TallyRill.html').Hash) {
+            throw 'Installed HTML differs from the source build'
+          }
+          $manifestLine = (Select-String -Path "$manifest/*.installer.yaml" -Pattern 'ProductCode:').Line
+          $productCode = [regex]::Match($manifestLine, '\{[0-9A-Fa-f-]{36}\}').Value
+          if (!$productCode) { throw 'Product code missing' }
+          $p = Start-Process msiexec.exe -ArgumentList '/x',$productCode,'/qn','/norestart' -Wait -PassThru
+          if ($p.ExitCode -ne 0 -or (Test-Path $installed)) { throw 'Uninstall check failed' }
