@@ -1,8 +1,0 @@
-.qa/
-__pycache__/
-build/
-release/
-website/
-*.log
-media/demo.mp4
-media/demo.gif

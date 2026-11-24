@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; worker-src blob:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>TallyRill · CSV reconciliation</title><link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OCA0OCI+PHJlY3Qgd2lkdGg9IjQ4IiBoZWlnaHQ9IjQ4IiByeD0iMTIiIGZpbGw9IiMxMjNmMzYiLz48ZyBmaWxsPSIjZGJlZjk4Ij48cmVjdCB4PSI5IiB5PSIxMSIgd2lkdGg9IjI1IiBoZWlnaHQ9IjYiIHJ4PSIyIi8+PHJlY3QgeD0iMTYiIHk9IjIxIiB3aWR0aD0iMjMiIGhlaWdodD0iNiIgcng9IjIiLz48cmVjdCB4PSI5IiB5PSIzMSIgd2lkdGg9IjE4IiBoZWlnaHQ9IjYiIHJ4PSIyIi8+PC9nPjwvc3ZnPgo="><style>*{box-sizing:border-box}html{color-scheme:light;--back:#f2f4ef;--surface:#fff;--ink:#162c28;--muted:#4f6860;--line:#cdd8d1;--accent:#076c56;--soft:#e6f2ec;--hot:#9a421c;--cold:#165e78;--signal:#eaf8ad;background:var(--back);color:var(--ink);font:100%/1.5 "Inter","Segoe UI",sans-serif}html[data-theme=dark]{color-scheme:dark;--back:#10221e;--surface:#192e28;--ink:#eaf3ed;--muted:#a7bdb3;--line:#385349;--accent:#a9deb8;--soft:#2b483c;--hot:#ffb189;--cold:#91cfe8;--signal:#eaf8ad}body{margin:0}button,input,select{font:inherit;color:inherit}button,select{cursor:pointer}button{transition:background .16s,transform .16s}button:active:enabled{transform:translateY(1px)}button:disabled{opacity:.48;cursor:default}button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible,.pick:has(input:focus-visible),#keys label:has(input:focus-visible){outline:3px solid #ce8d23;outline-offset:3px}button,.pick{border-radius:8px;font-weight:600}h1,h2,h3,p{margin:0}h1,h2,h3,.brand{line-height:1.12}h1{font:500 clamp(2.2rem,5vw,3.9rem)/1.06 Georgia,"Times New Roman",serif;letter-spacing:-.05em}h2{font-size:1.55rem;letter-spacing:-.045em}h3{font-size:1rem}.wrap{width:min(1080px,calc(100% - 3rem));margin:auto}header{background:var(--surface);border-bottom:1px solid var(--line)}.bar,.brand,.tools,.sectionhead,.run,.keyline,footer,.mode,.pages{display:flex;align-items:center}.bar{min-height:65px;justify-content:space-between}.brand{gap:.6rem;font-size:1.4rem;font-weight:720;letter-spacing:-.055em}.tools{gap:.55rem}.quiet,.demo,.primary{padding:.5rem .9rem;border:1px solid var(--line);background:var(--surface)}.quiet:hover:enabled,.pick:hover{background:var(--soft)}main.wrap{padding-top:1.4rem}.hero{overflow:hidden;position:relative;isolation:isolate;background:#123f36;color:#fff;border-radius:16px;display:flex;min-height:210px;align-items:center}.heroCopy{position:relative;z-index:1;padding:1.65rem 2rem;width:75%}.mode{gap:.4rem;letter-spacing:.1em;color:#d8edce;font-size:.74rem;text-transform:uppercase;font-weight:650;margin-bottom:.65rem}.dot{background:#ccf5a1;width:7px;height:7px;border-radius:100%}.hero p{color:#e0ede4;margin:.55rem 0 1rem;max-width:43em}.demo{background:transparent;border-color:#83a99c;color:white;font-size:.9rem}.demo:hover{background:#225747}.weave{position:absolute;z-index:-1;right:-2%;top:0;bottom:0;width:30%;background:repeating-linear-gradient(90deg,transparent 0 25px,#58897754 26px 27px);transform:skewX(-12deg);display:flex;flex-direction:column;justify-content:center;gap:9px}.weave i{background:linear-gradient(90deg,#a7cdb1,#dbef98);height:10px;display:block;width:80%;margin-left:15%;border-radius:3px}.weave i:nth-child(2n){width:48%;margin-left:41%;opacity:.85}.weave i:nth-child(3n){width:62%;margin-left:0;background:#58987f}.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;margin:1rem 0;padding:1.4rem 1.6rem}.sectionhead,.run,footer,.pages{gap:1rem;justify-content:space-between}.sectionhead{min-height:2.3rem;margin-bottom:1rem}.pair{display:grid;grid-template-columns:1fr 1fr;gap:.85rem}.file{min-width:0;border-radius:10px;background:var(--back);border:1px solid var(--line);padding:1rem}.file.over{outline:3px solid var(--accent)}.filetop{display:flex;align-items:center;gap:.65rem}.badge{color:var(--accent);background:var(--soft);border:1px solid var(--line);font:600 .9rem/1.6 monospace;border-radius:5px;padding:0 .5rem}.pick{margin:.85rem 0 .35rem;display:block;background:var(--surface);padding:.8rem;border:1px dashed var(--line);color:var(--accent);cursor:pointer;overflow-wrap:anywhere}.pick input{position:absolute;opacity:0;width:1px;height:1px}.meta,.note,small,footer,.pages span{color:var(--muted);font-size:.87rem}.meta{overflow-wrap:anywhere;min-height:1.4em}.file details{font-size:.85rem;margin-top:.4rem}.file summary{color:var(--muted);cursor:pointer;width:fit-content}.opts,.filters{display:flex;gap:.65rem;flex-wrap:wrap}.opts label,.filters label{display:grid;gap:.25rem;font-size:.85rem;color:var(--muted)}input[type=search],select{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:.46rem .55rem;min-width:0}.opts{margin:.6rem 0 .2rem}#keybox{margin-top:1rem}.keyline{gap:.75rem;flex-wrap:wrap}#keys{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:.5rem}#keys label{overflow-wrap:anywhere;max-width:100%;cursor:pointer;padding:.3rem .65rem;border:1px solid var(--line);border-radius:7px;display:inline-flex;align-items:center;gap:.4rem}#keys label:has(:checked){color:var(--accent);background:var(--soft);border-color:var(--accent)}input[type=checkbox]{accent-color:var(--accent)}.run{border-top:1px solid var(--line);padding-top:1rem;margin-top:1rem}.primary{background:var(--accent);color:var(--surface);border-color:transparent}#notice{color:var(--muted);overflow-wrap:anywhere}#notice:not(:empty){padding:.5rem .9rem;background:var(--soft);border-left:3px solid var(--accent)}#notice[data-bad=true]{color:var(--hot);border-color:var(--hot)}#stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:9px;overflow:hidden}.stat{background:var(--back);padding:.65rem 1rem}.stat b{font:500 1.8rem/1.2 Georgia,serif;display:block}.stat span{font-size:.85rem;color:var(--muted)}.filters{margin:1rem 0;align-items:end}.filters label:last-child{flex:1}.entry{border-top:1px solid var(--line);padding:.9rem 0}.entry h3{display:flex;align-items:center;gap:.8rem;overflow-wrap:anywhere;flex-wrap:wrap}.tag{border-radius:4px;border:1px solid var(--line);font:600 .76rem/1.4 "Segoe UI",sans-serif;padding:.1rem .45rem;color:var(--cold)}.tag.added{color:var(--accent)}.tag.removed{color:var(--hot)}table{width:100%;table-layout:fixed;border-collapse:collapse;margin-top:.5rem;text-align:start;font-size:.9rem}td,th{text-align:left;vertical-align:top;padding:.2rem .5rem;overflow-wrap:anywhere;white-space:pre-wrap}th{font-weight:500;font-size:.8rem;color:var(--muted)}td:first-child{font-weight:600}td:nth-child(2){color:var(--muted)}#schema{padding:.55rem;background:var(--soft);margin-top:.7rem;white-space:pre-wrap;overflow-wrap:anywhere}.pages{border-top:1px solid var(--line);padding-top:.7rem}footer{margin:1.5rem auto!important;padding-bottom:1rem}footer b{letter-spacing:-.05em}#result{scroll-margin-top:1rem}[hidden]{display:none!important}@media(max-width:680px){.wrap{width:calc(100% - 1.1rem)}.heroCopy{width:100%;padding:1.3rem}.weave{opacity:.12}.pair{grid-template-columns:1fr}.panel{padding:1rem}.run,.sectionhead{align-items:start;flex-wrap:wrap}.sectionhead h2{flex:1}.keyline{gap:.3rem}.tools{gap:.2rem}.tools button{padding:.45rem .55rem}.stat{padding:.5rem}.stat span{font-size:.78rem}.filters label{width:100%}}@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+
+@media(max-width:440px){#stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style></head><body>
+<header><div class="wrap bar"><div class="brand"><img alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OCA0OCI+PHJlY3Qgd2lkdGg9IjQ4IiBoZWlnaHQ9IjQ4IiByeD0iMTIiIGZpbGw9IiMxMjNmMzYiLz48ZyBmaWxsPSIjZGJlZjk4Ij48cmVjdCB4PSI5IiB5PSIxMSIgd2lkdGg9IjI1IiBoZWlnaHQ9IjYiIHJ4PSIyIi8+PHJlY3QgeD0iMTYiIHk9IjIxIiB3aWR0aD0iMjMiIGhlaWdodD0iNiIgcng9IjIiLz48cmVjdCB4PSI5IiB5PSIzMSIgd2lkdGg9IjE4IiBoZWlnaHQ9IjYiIHJ4PSIyIi8+PC9nPjwvc3ZnPgo=" width="33" height="33">TallyRill</div><div class="tools"><button id="lang" class="quiet">Русский</button><button id="theme" class="quiet"></button></div></div></header>
+<main class="wrap">
+<section class="hero"><div class="heroCopy"><div class="mode"><span class="dot"></span><span data-t="private"></span></div><h1 data-t="heading"></h1><p data-t="intro"></p><button id="sample" class="demo" data-t="sample"></button></div>
+<div class="weave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></section>
+<section class="panel setup"><div class="sectionhead"><h2 data-t="sources"></h2><button id="reset" class="quiet" data-t="clear" hidden></button></div>
+<div class="pair" id="inputs"></div>
+<div id="keybox" hidden><div class="keyline"><h3 data-t="keys"></h3><small data-t="keyHint"></small></div><div id="keys"></div></div>
+<div class="run"><span class="note" id="hint"></span><button id="run" class="primary" data-t="compare" disabled></button></div>
+</section>
+<p id="notice" role="status" aria-live="polite"></p>
+<section id="result" class="panel" hidden><div class="sectionhead"><h2 data-t="ledger"></h2><button id="export" class="quiet" data-t="export"></button></div>
+<div id="stats"></div><p id="schema" hidden></p><div class="filters"><label><span data-t="filter"></span><select id="filter"></select></label><label><span data-t="search"></span><input type="search" id="search"></label></div>
+<div id="entries"></div><nav class="pages"><button id="prev" class="quiet" data-t="prev"></button><span id="pageinfo"></span><button id="next" class="quiet" data-t="next"></button></nav></section>
+</main><footer class="wrap"><b>TallyRill</b><span>1.0.0 · MIT</span></footer>
+<script type="text/plain" id="worker">"use strict";
+
+class DataError extends Error {
+  constructor(code, ...args) {
+    super(code);
+    this.args = args;
+  }
+}
+function fail(code, ...args) { throw new DataError(code, ...args); }
+const limits = {bytes: 12 * 1024 * 1024, cells: 500000, columns: 256};
+
+function decode(buffer, encoding) {
+  const bytes = new Uint8Array(buffer);
+  if (bytes.length > limits.bytes) fail("fileSize");
+  if (encoding === "auto") {
+    encoding = bytes[0] === 255 && bytes[1] === 254 ? "utf-16le"
+      : bytes[0] === 254 && bytes[1] === 255 ? "utf-16be" : "utf-8";
+  }
+  let value;
+  try { value = new TextDecoder(encoding, {fatal:true}).decode(bytes); }
+  catch { fail("encoding"); }
+  if (value.includes("\0")) fail("binary");
+  return {value, encoding};
+}
+
+function delimiter(text) {
+  const counts = new Map([[",",0], [";",0], ["\t",0]]);
+  let quoted = false;
+  for (const c of text) {
+    if (c === '"') quoted = !quoted;
+    if (quoted) continue;
+    if (c === "\n" || c === "\r") break;
+    if (counts.has(c)) counts.set(c, counts.get(c) + 1);
+  }
+  return [...counts].sort((a,b) => b[1]-a[1])[0][0];
+}
+
+function parse(input, choice = "auto") {
+  const text = input.replace(/^\uFEFF/, "");
+  const sep = choice === "auto" ? delimiter(text) : choice;
+  const rows = [];
+  let headers, fields = [], value = "", quoted = false, closed = false, touched = false, cells = 0;
+  function pushField() {
+    if (++cells > limits.cells || fields.length >= limits.columns) fail("cellLimit");
+    fields.push(value);
+    value = "";
+    closed = false;
+  }
+  function endRecord() {
+    if (!touched) return;
+    pushField();
+    if (!headers) {
+      if (fields.some(h => !h.trim()) || new Set(fields).size !== fields.length) fail("header");
+      headers = fields;
+    } else {
+      if (fields.length !== headers.length) fail("width", rows.length + 2, fields.length, headers.length);
+      rows.push(fields);
+    }
+    fields = [];
+    touched = false;
+  }
+  for (let i=0; i<text.length; i++) {
+    const c = text[i];
+    if (quoted) {
+      if (c !== '"') value += c;
+      else if (text[i+1] === '"') { value += c; i++; }
+      else { quoted = false; closed = true; }
+    } else if (c === "\r" || c === "\n") {
+      endRecord();
+      if (c === "\r" && text[i+1] === "\n") i++;
+    } else if (c === sep) {
+      touched = true;
+      pushField();
+    } else {
+      touched = true;
+      if (closed || (c === '"' && value.length)) fail("quote", rows.length + (headers ? 2 : 1));
+      if (c === '"') quoted = true;
+      else value += c;
+    }
+  }
+  if (quoted) fail("quote", rows.length + (headers ? 2 : 1));
+  endRecord();
+  if (!headers) fail("empty");
+  return {headers, rows, sep};
+}
+
+function indexTable(table, keys, side) {
+  const cols = keys.map(k => table.headers.indexOf(k));
+  const map = new Map();
+  for (const [i, row] of table.rows.entries()) {
+    const parts = cols.map(c => row[c]);
+    if (parts.some(s => !s.trim())) fail("blankKey", side, i+2);
+    const key = JSON.stringify(parts);
+    if (map.has(key)) fail("dupKey", side, map.get(key)+2, i+2);
+    map.set(key, i);
+  }
+  return map;
+}
+
+function compare(a, b, keys) {
+  if (!keys.length || keys.some(k => !a.headers.includes(k) || !b.headers.includes(k))) fail("key");
+  const left = indexTable(a, keys, "A"), right = indexTable(b, keys, "B");
+  const all = [...new Set([...a.headers, ...b.headers])];
+  const cols = all.map(h => ({h, x:a.headers.indexOf(h), y:b.headers.indexOf(h)}));
+  const common = cols.filter(c => c.x >= 0 && c.y >= 0 && !keys.includes(c.h));
+  const schema = cols.filter(c => c.x < 0 || c.y < 0);
+  const records = [], counts = {changed:0, added:0, removed:0, same:0};
+  const add = (key, status, x, y) => { counts[status]++; records.push({key, status, x, y}); };
+  for (const [key, x] of left) {
+    const y = right.get(key);
+    if (y === undefined) add(key, "removed", x, null);
+    else if (common.some(c => a.rows[x][c.x] !== b.rows[y][c.y])) add(key,"changed",x,y);
+    else counts.same++;
+  }
+  for (const [key, y] of right) if (!left.has(key)) add(key, "added", null, y);
+  return {records, counts, schema, cols, common, a, b};
+}
+
+function* details(diff, row) {
+  const changed = row.status === "changed";
+  for (const {h,x,y} of changed ? diff.common : diff.cols) {
+    const before = row.x === null || x < 0 ? null : diff.a.rows[row.x][x];
+    const after = row.y === null || y < 0 ? null : diff.b.rows[row.y][y];
+    if (before !== after) yield [h, before, after];
+  }
+}
+function query(diff, status, needle) {
+  const s = needle.trim().toLowerCase();
+  return diff.records.filter(r => {
+    if (status !== "all" && status !== r.status) return false;
+    if (!s || JSON.parse(r.key).some(k => k.toLowerCase().includes(s))) return true;
+    for (const cells of details(diff,r)) if (cells.some(v => v !== null && v.toLowerCase().includes(s))) return true;
+    return false;
+  });
+}
+function csvCell(v) {
+  let s = v ?? "";
+  if (/^[\s\uFEFF]*[=+\-@\uFF1D\uFF0B\uFF0D\uFF20]/u.test(s) || /^[\t\r\n]/.test(s)) s = "'" + s;
+  return '"' + s.replaceAll('"','""') + '"';
+}
+function exportCSV(diff, keys) {
+  let length = 0;
+  const chunks = [];
+  function append(cells) {
+    const line = cells.map(csvCell).join(",") + "\r\n";
+    length += line.length;
+    if (length > 24 * 1024 * 1024) fail("exportLimit");
+    chunks.push(line);
+  }
+  append(["status", ...keys.map(k=>"key:"+k), "field", "before", "after"]);
+  for (const c of diff.schema) append([c.x < 0 ? "column_added" : "column_removed", ...keys.map(()=>""), c.h,"",""]);
+  for (const r of diff.records) {
+    const parts = JSON.parse(r.key);
+    for (const triple of details(diff,r)) append([r.status,...parts,...triple]);
+  }
+  return new Blob(["\uFEFF", ...chunks],{type:"text/csv;charset=utf-8"});
+}
+if (typeof module !== "undefined") module.exports = {decode, parse, compare, details, query, exportCSV};
+
+let tables = [], diff, keys, lastFilter, matches;
+onmessage = async ({data}) => {
+  try {
+    if (data.op === "load") {
+      diff = null;
+      tables = [];
+      for (const [i,file] of data.files.entries()) {
+        if (!file) { tables.push(null); continue; }
+        try {
+          if (file.size > limits.bytes) fail("fileSize");
+          const {value,encoding} = decode(await file.arrayBuffer(), data.enc[i]);
+          const table = parse(value, data.sep[i]);
+          table.encoding = encoding;
+          tables.push(table);
+        } catch(e) { e.side = i ? "B" : "A"; throw e; }
+      }
+      const meta = tables.map(t => t && ({headers:t.headers, count:t.rows.length, encoding:t.encoding, sep:t.sep}));
+      postMessage({op:"loaded", meta});
+    } else if (data.op === "compare") {
+      diff = null;
+      keys = data.keys;
+      diff = compare(...tables, keys);
+      lastFilter = null;
+      postMessage({op:"compared", counts:diff.counts, schema:diff.schema});
+    } else if (data.op === "page") {
+      const f = JSON.stringify([data.status,data.search]);
+      if (lastFilter !== f) { matches = query(diff,data.status,data.search); lastFilter = f; }
+      const rows = matches.slice(data.start,data.start + 12).map(r => ({
+        key:JSON.parse(r.key), status:r.status, cells:[...details(diff,r)]
+      }));
+      postMessage({op:"page", seq:data.seq, rows, total:matches.length, start:data.start});
+    } else if (data.op === "export") postMessage({op:"export", blob:exportCSV(diff,keys)});
+  } catch(e) {
+    postMessage({op:"error", action:data.op, code:e instanceof DataError ? e.message : "unexpected", args:e.args || [], side:e.side});
+  }
+};
+</script><script>const samples = ["SKU,Depot,Item,Stock,Price\nCL-101,North,Porcelain pour-over,18,34.00\nCL-101,South,Porcelain pour-over,12,34.00\nGL-204,North,Ripple tumbler,48,14.50\nTX-310,South,\"Linen napkins, set of 2\",24,19.00\nWD-417,North,Ash serving board,9,42.00\nMT-522,South,Brushed steel scoop,27,12.00\nCL-638,North,Ochre bud vase,7,26.00\nTX-709,South,Indigo tea towel,32,16.50\n", "SKU,Depot,Item,Stock,Price\nTX-310,South,\"Linen napkins, set of 2\",24,19.00\nCL-101,South,Porcelain pour-over,12,34.00\nTX-709,South,Indigo tea towel,32,16.50\nCL-101,North,Porcelain pour-over,15,36.00\nGL-204,North,Ripple tumbler,43,14.50\nMT-522,South,Brushed steel scoop,27,12.00\nWD-417,North,Ash serving board,9,39.00\nGL-812,South,Smoke glass carafe,11,38.00\n"];</script><script>const labels = {
+private:["Local workspace","Локальное рабочее место"],heading:["Compare two exports","Сверка двух выгрузок"],intro:["Match rows by their key and trace each change to its field.","Сопоставьте строки по ключу и проверьте, в каких полях изменились значения."],sample:["Open warehouse example","Открыть складской пример"],sources:["Source files","Исходные файлы"],clear:["Clear workspace","Очистить"],before:["Earlier export","Предыдущая выгрузка"],after:["Later export","Новая выгрузка"],pick:["Choose file or drop here","Выберите или перетащите файл"],filetype:["CSV or TSV · up to 12 MiB","CSV или TSV · до 12 МиБ"],settings:["Import settings","Настройки чтения"],enc:["Encoding","Кодировка"],sep:["Delimiter","Разделитель"],auto:["Automatic","Автоматически"],comma:["Comma","Запятая"],semi:["Semicolon","Точка с запятой"],tab:["Tab","Табуляция"],keys:["Row key","Ключ строки"],keyHint:["Choose columns that identify one row together.","Выберите столбцы, сочетание которых однозначно определяет строку."],compare:["Compare files","Сравнить файлы"],chooseBoth:["Choose both exports to compare them.","Для сверки выберите обе выгрузки."],keyReady:["Values are compared as exact text.","Значения сравниваются как точный текст."],ledger:["Change ledger","Журнал изменений"],export:["Export full CSV","Скачать полный CSV"],filter:["Show","Показать"],search:["Search keys, fields and values","Поиск по ключам, полям и значениям"],prev:["Previous","Назад"],next:["Next","Далее"],all:["All changes","Все изменения"],changed:["Changed","Изменены"],added:["Added","Добавлены"],removed:["Removed","Удалены"],same:["Unchanged","Без изменений"],light:["Light theme","Светлая тема"],dark:["Dark theme","Тёмная тема"],rows:["rows","строк"],cols:["columns","столбцов"],loading:["Reading files…","Чтение файлов…"],working:["Comparing rows…","Сопоставление строк…"],finished:["Comparison complete.","Сверка завершена."],sampleDone:["Warehouse example loaded. The key is SKU + Depot.","Открыт складской пример. Ключ — SKU + Depot."],fileSize:["This file exceeds 12 MiB.","Размер файла превышает 12 МиБ."],encoding:["Cannot decode the file. Choose its encoding in Import settings.","Не удалось прочитать текст. Выберите кодировку в настройках чтения."],binary:["Found binary data. Check the encoding or export the sheet as CSV.","Обнаружены двоичные данные. Проверьте кодировку или сохраните лист как CSV."],header:["Each column needs a unique, non-empty header.","У каждого столбца должно быть уникальное непустое название."],cellLimit:["Limit exceeded. Use up to 500,000 cells and 256 columns per file.","Предел на файл — 500 000 ячеек и 256 столбцов."],width:["Record {0} has {1} fields. Expected {2}. Check the delimiter.","В записи {0} полей: {1}. Ожидалось {2}. Проверьте разделитель."],quote:["Invalid quotation marks in record {0}.","Некорректные кавычки в записи {0}."],empty:["This file has no header.","В файле отсутствует заголовок."],key:["Choose at least one shared key column.","Выберите хотя бы один общий столбец ключа."],noCommon:["No shared column names. Check headers and import settings.","Общих названий столбцов нет. Проверьте заголовки и настройки чтения."],dupKey:["{0}: records {1} and {2} share a key. Add a key column or correct the export.","{0}: в записях {1} и {2} совпадает ключ. Добавьте столбец в ключ или исправьте выгрузку."],blankKey:["{0}: record {1} contains an empty key. Check the export or choose other columns.","{0}: в записи {1} пустая часть ключа. Проверьте выгрузку или выберите другие столбцы."],unexpected:["The operation failed. Check the file and try again.","Операция не удалась. Проверьте файл и повторите."],exportLimit:["This report is too large to export at once. Split the sources by key.","Отчёт слишком велик для экспорта. Разделите исходные файлы по ключу."],download:["CSV report prepared for download.","CSV-отчёт подготовлен к скачиванию."],field:["Field","Поле"],old:["Before","Было"],new:["After","Стало"],blank:["(empty)","(пусто)"],absent:["—","—"],noMatch:["No changes match these filters.","По выбранным условиям изменений нет."],identical:["All matched rows have the same values in their shared columns.","В общих столбцах всех сопоставленных строк значения совпадают."],schemaPlus:["Added columns","Добавлены столбцы"],schemaMinus:["Removed columns","Удалены столбцы"],of:["of","из"],preparing:["Preparing CSV…","Подготовка CSV…"],blocked:["Action unavailable","Действие недоступно"]
+};
+</script><script>"use strict";
+const $ = id => document.getElementById(id);
+const make = (tag, value, cls) => {
+  const el = document.createElement(tag);
+  if (value !== undefined) el.textContent = value;
+  if (cls) el.className = cls;
+  return el;
+};
+function preference(k, value) {
+  try {
+    if (value === undefined) return localStorage.getItem("tallyrill-"+k);
+    localStorage.setItem("tallyrill-"+k,value);
+  } catch { /* Storage is optional in local HTML. */ }
+}
+let lang = preference("lang") || (navigator.language.startsWith("ru") ? "ru" : "en");
+let theme = preference("theme") || (matchMedia("(prefers-color-scheme:dark)").matches ? "dark" : "light");
+const t = k => labels[k][lang === "ru" ? 1 : 0];
+const files=[null,null], enc=["auto","auto"], sep=["auto","auto"];
+let meta=[], keys=[], worker, sample=false, autoRun=false, busy=false, report, page, seq=0, timer;
+let message="", args=[], side="", bad=false;
+const workerURL=URL.createObjectURL(new Blob([$("worker").textContent],{type:"text/javascript"}));
+
+function notice(code="", values=[], prefix="", error=false) {
+  message=code; args=values; side=prefix; bad=error;
+  $("notice").dataset.bad=error;
+  $("notice").textContent = code ? (prefix ? prefix+" · " : "") + t(code).replace(/\{(\d+)\}/g,(_,i)=>values[i]) : "";
+}
+function dropReport() {
+  clearTimeout(timer);
+  report=null; page=null; seq++;
+  $("entries").replaceChildren();
+  $("result").hidden=true;
+  $("search").value="";
+  $("filter").value="all";
+}
+function selectOptions(select, items, current) {
+  select.replaceChildren(...items.map(([value,label])=>new Option(label,value,false,value===current)));
+}
+function drawFile(i) {
+  const el=make("div",undefined,"file");
+  const top=make("div",undefined,"filetop");
+  top.append(make("b","AB"[i],"badge"),make("h3",t(i?"after":"before")));
+  const pick=make("label",files[i]?.name || t("pick"),"pick");
+  const input=make("input");
+  input.type="file"; input.id="file"+i; input.accept=".csv,.tsv,.txt";
+  input.setAttribute("aria-label",t(i?"after":"before"));
+  const take=file=>{
+    if (!file) return;
+    files[i]=file; sample=false; autoRun=false; reload();
+  };
+  input.onchange=()=>take(input.files[0]); pick.append(input);
+  el.ondragover=e=>{e.preventDefault();el.classList.add("over");};
+  el.ondragleave=()=>el.classList.remove("over");
+  el.ondrop=e=>{e.preventDefault();el.classList.remove("over");take(e.dataTransfer.files[0]);};
+  const info=meta[i];
+  const summary=info ? info.count+" "+t("rows")+" · "+info.headers.length+" "+t("cols")+" · "+info.encoding.toUpperCase() : t("filetype");
+  const details=make("details");details.open=Boolean(document.querySelectorAll(".file details")[i]?.open);
+  details.append(make("summary",t("settings")));
+  const options=make("div",undefined,"opts");
+  for (const [name,model,items] of [
+    ["enc",enc,[["auto",t("auto")],["utf-8","UTF-8"],["windows-1251","Windows-1251"],["utf-16le","UTF-16 LE"],["utf-16be","UTF-16 BE"]]],
+    ["sep",sep,[["auto",t("auto")],[",",t("comma")],[";",t("semi")],["\t",t("tab")]]]
+  ]) {
+    const label=make("label",t(name)), select=make("select");
+    select.id=name+i; selectOptions(select,items,model[i]);
+    select.onchange=()=>{model[i]=select.value; autoRun=false;reload();};
+    label.append(select);options.append(label);
+  }
+  details.append(options);el.append(top,pick,make("p",summary,"meta"),details);
+  return el;
+}
+function common() {return meta[0] && meta[1] ? meta[0].headers.filter(h=>meta[1].headers.includes(h)) : [];}
+function updateRun() {
+  $("run").disabled=busy || !keys.length || !common().length;
+  $("hint").textContent=t(meta.every(Boolean) && meta.length===2 ? (common().length ? "keyReady":"noCommon") : "chooseBoth");
+}
+function drawInputs() {
+  $("inputs").replaceChildren(drawFile(0),drawFile(1));
+  $("reset").hidden=!files.some(Boolean);
+  const cols=common();
+  $("keybox").hidden=!cols.length;
+  $("keys").replaceChildren(...cols.map(c=>{
+    const label=make("label");const input=make("input");input.type="checkbox";input.value=c;input.checked=keys.includes(c);
+    input.onchange=()=>{
+      sample=false; dropReport(); keys=cols.filter(h=>[...$("keys").querySelectorAll(":checked")].some(box=>box.value===h));
+      notice();updateRun();
+    };
+    input.disabled=busy;
+    label.append(input,document.createTextNode(c));return label;
+  }));
+  updateRun();
+}
+function drawReport() {
+  if (!report) return;
+  $("result").hidden=false;
+  $("stats").replaceChildren(...["changed","added","removed","same"].map(k=>{
+    const stat=make("div",undefined,"stat");stat.append(make("b",report.counts[k]),make("span",t(k)));return stat;
+  }));
+  const schema=report.schema;
+  $("schema").hidden=!schema.length;
+  $("schema").textContent=[["schemaPlus",schema.filter(c=>c.x<0)],["schemaMinus",schema.filter(c=>c.y<0)]]
+    .filter(([,v])=>v.length).map(([k,v])=>t(k)+" · "+v.map(c=>c.h).join(", ")).join("\n");
+  if (!page) return;
+  const entries=page.rows.map(row=>{
+    const article=make("article",undefined,"entry"),head=make("h3");
+    head.append(make("span",row.key.join(" / ")),make("span",t(row.status),"tag "+row.status));
+    const table=make("table"), tr=table.createTHead().insertRow();
+    for(const k of ["field","old","new"]) tr.append(make("th",t(k)));
+    const body=table.createTBody();
+    for(const cells of row.cells){
+      const line=body.insertRow();
+      for(const v of cells) line.insertCell().textContent=v===null?t("absent"):v===""?t("blank"):v;
+    }
+    article.append(head,table);return article;
+  });
+  if (!entries.length) entries.push(make("p",t(Object.keys(report.counts).filter(k=>k!=="same").every(k=>!report.counts[k])?"identical":"noMatch"),"entry"));
+  $("entries").replaceChildren(...entries);
+  $("prev").disabled=page.start===0; $("next").disabled=page.start+12>=page.total;
+  $("pageinfo").textContent=page.total ? (page.start+1)+"–"+Math.min(page.total,page.start+12)+" "+t("of")+" "+page.total : "0";
+}
+function localize() {
+  document.documentElement.lang=lang;
+  document.title="TallyRill · "+t("heading");
+  document.documentElement.dataset.theme=theme;
+  $("lang").textContent=lang==="ru"?"English":"Русский";
+  $("theme").textContent=t(theme==="dark"?"light":"dark");
+  document.querySelectorAll("[data-t]").forEach(el=>el.textContent=t(el.dataset.t));
+  selectOptions($("filter"),["all","changed","added","removed"].map(k=>[k,t(k)]),$("filter").value || "all");
+  drawInputs();drawReport();notice(message,args,side,bad);
+}
+function pageAt(start=0) {
+  if (report) worker.postMessage({op:"page", seq:++seq, start, status:$("filter").value, search:$("search").value});
+}
+function run() {
+  if ($("run").disabled) return;
+  dropReport();busy=true;drawInputs();notice("working");
+  worker.postMessage({op:"compare", keys});
+}
+function reload() {
+  worker?.terminate();busy=files.some(Boolean);dropReport();meta=[];drawInputs();
+  notice(busy?"loading":"");
+  if (!busy) return;
+  worker=new Worker(workerURL);
+  worker.onerror=()=>{busy=false;drawInputs(); notice("unexpected",[],"",true);};
+  worker.onmessage=({data:d})=>{
+    if(d.op==="loaded"){
+      meta=d.meta;const cols=common();
+      keys=keys.filter(k=>cols.includes(k));
+      if(!keys.length && cols.length) keys=[cols[0]];
+      busy=false;notice();drawInputs();
+      if(autoRun){autoRun=false;run();}
+    } else if (d.op==="compared"){
+      busy=false;report=d;page=null;drawInputs();drawReport();pageAt();notice(sample?"sampleDone":"finished");
+      $("result").scrollIntoView({block:"start"});
+    } else if(d.op==="page" && d.seq===seq && report){page=d;drawReport();}
+    else if(d.op==="export"){
+      $("export").disabled=false;
+      const url=URL.createObjectURL(d.blob),a=make("a");a.href=url;a.download="TallyRill-changes.csv";a.click();
+      setTimeout(()=>URL.revokeObjectURL(url),60000);notice("download");
+    } else if(d.op==="error"){
+      busy=false;autoRun=false;$("export").disabled=false;drawInputs();notice(d.code,d.args,d.side,true);
+    }
+  };
+  $("export").disabled=false;
+  worker.postMessage({op:"load",files,enc,sep});
+}
+$("run").onclick=run;
+$("reset").onclick=()=>{files.fill(null);enc.fill("auto");sep.fill("auto");keys=[];sample=false;autoRun=false;reload();};
+$("sample").onclick=()=>{
+  for(const [i,csv] of samples.entries()) files[i]=new File([csv],i?"catalog-after.csv":"catalog-before.csv",{type:"text/csv"});
+  enc.fill("auto");sep.fill("auto");keys=["SKU","Depot"];sample=true;autoRun=true;reload();
+};
+$("filter").onchange=()=>pageAt();
+$("search").oninput=()=>{clearTimeout(timer);timer=setTimeout(()=>pageAt(),120);};
+$("prev").onclick=()=>pageAt(Math.max(0,page.start-12));
+$("next").onclick=()=>pageAt(page.start+12);
+$("export").onclick=()=>{$("export").disabled=true;notice("preparing");worker.postMessage({op:"export"});};
+$("lang").onclick=()=>{lang=lang==="ru"?"en":"ru";preference("lang",lang);localize();};
+$("theme").onclick=()=>{theme=theme==="dark"?"light":"dark";preference("theme",theme);localize();};
+localize();
+</script></body></html>
