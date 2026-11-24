@@ -4,7 +4,7 @@ Compare two CSV or TSV snapshots on your own computer. Match rows by one or seve
 
 ![Ledger for two synthetic warehouse exports](media/report-light.png)
 
-[Download for Windows](https://github.com/ltfs229-ag/TallyRill/releases/tag/v1.0.0) · [Official site](https://tallyrill.alexgvsih.chatgpt.site) · [Официальный сайт на русском](https://tallyrill.alexgvsih.chatgpt.site/ru)
+[Open TallyRill in your browser](https://ltfs229-ag.github.io/TallyRill/) · [Download for Windows](https://github.com/ltfs229-ag/TallyRill/releases/tag/v1.0.0) · [Руководство на русском](docs/GUIDE.md#русское-руководство)
 
 ## Try the warehouse example
 
@@ -20,7 +20,15 @@ The downloadable HTML works offline. Processing runs in a browser worker. Each f
 
 Откройте portable-файл `TallyRill.html` в Edge или Chrome либо установите MSI и запустите TallyRill из меню «Пуск». Кнопка **Русский** переключает язык. Выберите две выгрузки, укажите один или несколько столбцов ключа и нажмите **Сравнить файлы**. Для CSV из старых учётных систем доступна кодировка Windows-1251. Отчёт содержит старые и новые значения, добавленные и удалённые позиции. Руководство, синтетические примеры и лицензия входят в обе поставки.
 
-[Руководство на русском](docs/GUIDE.md#русское-руководство) · [Тёмная тема](media/report-dark-ru.png) · [Установка и удаление](docs/PACKAGING.md)
+[Запустить в браузере](https://ltfs229-ag.github.io/TallyRill/) · [Тёмная тема](media/report-dark-ru.png) · [Установка и удаление](docs/PACKAGING.md)
+
+### Install with Scoop
+
+With Scoop installed, use the manifest from the versioned source. It downloads the portable ZIP from GitHub Releases and creates a TallyRill shortcut.
+
+```powershell
+scoop install https://raw.githubusercontent.com/ltfs229-ag/TallyRill/v1.0.0/distribution/scoop/tallyrill.json
+```
 
 ## Build and verify
 
