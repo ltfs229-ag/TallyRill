@@ -6,6 +6,8 @@ Compare two CSV or TSV snapshots on your own computer. Match rows by one or seve
 
 [Open TallyRill in your browser](https://ltfs229-ag.github.io/TallyRill/) · [Download for Windows](https://github.com/ltfs229-ag/TallyRill/releases/tag/v1.0.0) · [Руководство на русском](docs/GUIDE.md#русское-руководство)
 
+[Worked example with screenshots](https://ltfs229-ag.github.io/TallyRill/articles/inventory-diff-en/) · [Разбор складской сверки со скриншотом](https://ltfs229-ag.github.io/TallyRill/articles/warehouse-csv-ru/)
+
 ## Try the warehouse example
 
 Open `TallyRill.html` from the portable ZIP in a current version of Microsoft Edge or Google Chrome. The Windows MSI adds a Start menu shortcut for the current user. Select **Open warehouse example**. A SKU can occur at two depots, so this comparison uses **SKU + Depot**. Search for **CL-101** to see North stock fall from 18 to 15 and its unit price change from 34.00 to 36.00.
