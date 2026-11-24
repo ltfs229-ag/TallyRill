@@ -1,0 +1,15 @@
+{
+  "version": "1.0.0",
+  "description": "Compare local CSV and TSV exports by one or several key columns.",
+  "homepage": "https://tallyrill.alexgvsih.chatgpt.site",
+  "license": "MIT",
+  "url": "https://github.com/ltfs229-ag/TallyRill/releases/download/v1.0.0/TallyRill-1.0.0-portable.zip",
+  "hash": "969537f6a9baec7129163f83fef4636666ad506363b04aba46e9137b9084ca8e",
+  "extract_dir": "TallyRill-1.0.0",
+  "shortcuts": [
+    [
+      "TallyRill.html",
+      "TallyRill"
+    ]
+  ]
+}

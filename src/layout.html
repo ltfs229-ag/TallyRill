@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; worker-src blob:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>TallyRill · CSV reconciliation</title><link rel="icon" href="__ICON__"><style>__CSS__</style></head><body>
+<header><div class="wrap bar"><div class="brand"><img alt="" src="__ICON__" width="33" height="33">TallyRill</div><div class="tools"><button id="lang" class="quiet">Русский</button><button id="theme" class="quiet"></button></div></div></header>
+<main class="wrap">
+<section class="hero"><div class="heroCopy"><div class="mode"><span class="dot"></span><span data-t="private"></span></div><h1 data-t="heading"></h1><p data-t="intro"></p><button id="sample" class="demo" data-t="sample"></button></div>
+<div class="weave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></section>
+<section class="panel setup"><div class="sectionhead"><h2 data-t="sources"></h2><button id="reset" class="quiet" data-t="clear" hidden></button></div>
+<div class="pair" id="inputs"></div>
+<div id="keybox" hidden><div class="keyline"><h3 data-t="keys"></h3><small data-t="keyHint"></small></div><div id="keys"></div></div>
+<div class="run"><span class="note" id="hint"></span><button id="run" class="primary" data-t="compare" disabled></button></div>
+</section>
+<p id="notice" role="status" aria-live="polite"></p>
+<section id="result" class="panel" hidden><div class="sectionhead"><h2 data-t="ledger"></h2><button id="export" class="quiet" data-t="export"></button></div>
+<div id="stats"></div><p id="schema" hidden></p><div class="filters"><label><span data-t="filter"></span><select id="filter"></select></label><label><span data-t="search"></span><input type="search" id="search"></label></div>
+<div id="entries"></div><nav class="pages"><button id="prev" class="quiet" data-t="prev"></button><span id="pageinfo"></span><button id="next" class="quiet" data-t="next"></button></nav></section>
+</main><footer class="wrap"><b>TallyRill</b><span>1.0.0 · MIT</span></footer>
+<script type="text/plain" id="worker">__WORKER__</script><script>__SAMPLES__</script><script>__I18N__</script><script>__APP__</script></body></html>
