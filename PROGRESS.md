@@ -9,5 +9,4 @@
 - Community catalog intake, adoption metrics and user feedback remain unverified. Publish only at channels that accept the material. Start with the evidence and eligibility checks in MARKETING_PLAN.md.
 
 - WinGet 1.29.380 validated the three package manifests with no warnings. The Scoop manifest passed the upstream JSON schema. Intake by either community catalog remains pending.
-- The demonstration is live on the website. A public YouTube upload was approved by its owner and the publisher requested account verification before delivery.
 - Weekly maintenance is scheduled for Tuesdays at 12:00 Moscow time. On the launch date, audience downloads, public mentions and verified user feedback have no established baseline.
